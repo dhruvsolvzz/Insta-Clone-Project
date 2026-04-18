@@ -2,7 +2,7 @@
 // is File me sare Auth Controllers ka logic jayega
 
 const userModel = require('../models/user.model')
-const crypto = require('crypto');
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 async function registerController(req,res){
@@ -24,7 +24,7 @@ async function registerController(req,res){
         return res.json({ msg });
     }
 
-const hash = crypto.createHash('sha256').update(password).digest('hex');
+const hash =await bcrypt.hash(password,10)
 
 const user = await userModel.create({
     email , username , bio , profilePicture , password : hash
@@ -51,9 +51,8 @@ async function loginController(req,res) {
             msg : "user does not exist Please Register First"
         })
     }
-    const hash = crypto.createHash('sha256').update(password).digest('hex');
-
-    const isPassWordvalid = hash === user.password
+  
+    const isPassWordvalid = bcrypt.compare(password , user.password)
     if(!isPassWordvalid){
        return res.json({
         msg : "Password Invalid"

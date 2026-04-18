@@ -1,18 +1,19 @@
-// APP ko create karna hai 
-
-const cookieParser = require('cookie-parser');
 const express = require('express')
-const appRouter = require('./routes/auth.routes');
-const authRouter = require('./routes/auth.routes');
+const cookieParser = require('cookie-parser')
+
+const authRouter = require('./routes/auth.routes')
+const postRouter = require('./routes/post.routes')
+
 // creating an instance of express
-const app = express() ;
-//middleWare read the data from thhe body
-app.use(express.json())
-// to parce secreat jwt token in Cookies
-app.use(cookieParser())
+const app = express()
 
-app.use("/api/auth" , authRouter)
+// middleware
+app.use(express.json())        // body parse
+app.use(cookieParser())        // cookies read
 
+// routes
+app.use("/api/auth", authRouter)
+app.use("/api/posts", postRouter)
 
-//exporting the app
-module.exports = app ;
+// exporting the app
+module.exports = app
