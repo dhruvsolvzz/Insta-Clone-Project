@@ -1,5 +1,7 @@
 const postModel = require("../models/post.model");
 const jwt = require("jsonwebtoken");
+const likeModel = require("../models/like.model");
+
 
 async function createPostController(req, res) {
   try {
@@ -68,4 +70,42 @@ async function getPostDetailsController(req, res) {
     post,
   });
 }
-module.exports = { createPostController , getAllPostsController ,getPostDetailsController };
+ async function likePostController(req,res ){
+    const username = req.user.username;
+    const postId = req.params.postid; 
+     
+    const post = await postModel.findById(postId);
+    if (!post) {
+        return res.status(404).json({
+            msg : "Post not found"
+        })
+    }
+    const isAlreadyLiked = await likeModel.findOne({
+        post : postId,
+        user : username })
+    if (isAlreadyLiked) {
+        return res.status(400).json({
+            msg : "You have already liked this post"
+        })
+    }
+   
+     const like = await likeModel.create({
+
+        post : postId,
+        user : username  
+     })
+     res.status(200).json({
+        msg : "Post liked successfully",
+        like
+     })
+
+
+
+}
+module.exports = {
+  createPostController,
+  getAllPostsController,
+  getPostDetailsController,
+  likePostController
+  
+};
