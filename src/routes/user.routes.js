@@ -1,6 +1,6 @@
 const express = require('express');
 const userRouter = express.Router();
-const { followUserController , unfollowUserController , likePostController } = require('../controllers/user.controller');
+const { followUserController , unfollowUserController } = require('../controllers/user.controller');
 const { identifyUserController} = require('../middlewares/auth.middleware');
 
 

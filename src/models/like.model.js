@@ -18,7 +18,7 @@ const likeSchema = mongoose.Schema({
 })
 
 // ek user ek post ko sirf ek baar like kar sakta hai , isliye hum unique index bana rahe hein likes aur user ke combination par
-likeSchema.index({likes : 1 , user : 1} , {unique : true}) // ek user ek post ko sirf ek baar like kar sakta hai
+likeSchema.index({post : 1 , user : 1} , {unique : true}) // ek user ek post ko sirf ek baar like kar sakta hai
 
 const likeModel = mongoose.model('like' , likeSchema)
 module.exports = likeModel

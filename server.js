@@ -1,4 +1,4 @@
-// Ye File just server ko start ka4rne ke lia hai aur dastabase se connect karne ke lia hai 
+// Ye File just server ko start karne ke lia hai aur database se connect karne ke lia hai 
 
 require('dotenv').config()
 
