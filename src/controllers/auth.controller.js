@@ -31,9 +31,13 @@ async function registerController(req, res) {
     profilePicture,
     password: hash,
   });
-  const token = jwt.sign({ userId: user._id  , username: user.username}, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
+  const token = jwt.sign(
+    { userId: user._id, username: user.username },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    },
+  );
 
   res.cookie("token", token);
 
@@ -68,9 +72,13 @@ async function loginController(req, res) {
     });
   }
 
-  const token = jwt.sign({ userId: user._id , username: user.username}, process.env.JWT_SECRET, {
-    expiresIn: "1d",
-  });
+  const token = jwt.sign(
+    { userId: user._id, username: user.username },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1d",
+    },
+  );
   res.cookie("token", token);
 
   res.json({
@@ -84,7 +92,33 @@ async function loginController(req, res) {
   });
 }
 
+async function getMeController(req, res) {
+  const username = req.user.username;
+
+  const user = await userModel.findOne({ username: username });
+
+  if (!user) {
+    return res.json({
+      msg: "User Not Found",
+    });
+  }
+
+  res.json({
+    msg: "User Found",
+    user: {
+      username: user.username,
+      email: user.email,
+      bio: user.bio,
+      profilePicture: user.profilePicture,
+    },
+  });
+}
+
+
+
+
 module.exports = {
   registerController,
   loginController,
+  getMeController,
 };
