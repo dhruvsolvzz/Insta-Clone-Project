@@ -1,6 +1,6 @@
 const express = require('express');
 const postRouter = express.Router();
-const { createPostController , getAllPostsController , getPostDetailsController , likePostController } = require('../controllers/post.controller');
+const { createPostController , getFeedController , getAllPostsController , getPostDetailsController , likePostController } = require('../controllers/post.controller');
 const multer = require('multer');
 const {identifyUserController} = require('../middlewares/auth.middleware');
 
@@ -10,6 +10,7 @@ postRouter.post('/', upload.single('image'), identifyUserController, createPostC
 postRouter.get('/allPosts', identifyUserController, getAllPostsController); 
 postRouter.get('/details/:postid', identifyUserController, getPostDetailsController); 
 postRouter.post('/like/:postid', identifyUserController, likePostController);
+postRouter.get('/feed', identifyUserController, getFeedController);
 // postRouter.post('/unlike/:postid', identifyUserController, unlikePostController);
 // return karegi ek user ke specific post details aur varify karegi ki post usi user ka hai ya nahi , agar nahi hai toh unauthorized access return karegi 
 
